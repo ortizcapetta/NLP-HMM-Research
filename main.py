@@ -2,7 +2,7 @@ import nltk
 from nltk.corpus import brown
 tagged_words = [ ]
 
-tagged_sents = brown.tagged_sents(tagset='universal')
+tagged_sents = brown.tagged_sents()
 #tagset=universal changes the brown tags for the universal ones
 #this is only for simplicity and better understanding but could be changed later on
 '''The universal tagset consists of the follow PoS: 
@@ -31,7 +31,7 @@ the start of the sentence to calculate the initial probability.'''
 #iterate through sentences and through words to reverse them and set the Start probability
 for sents in tagged_sents:
     tagged_words.append(("S","")) # S = start of sentence
-    tagged_words.extend([(tag,word) for (word,tag) in sents])
+    tagged_words.extend([(tag[:2],word) for (word,tag) in sents])
 
 
 
@@ -59,12 +59,13 @@ cond_freqtags = nltk.ConditionalFreqDist(nltk.bigrams(tags))
 condprob_tags = nltk.ConditionalProbDist(cond_freqtags, nltk.MLEProbDist)
 
 
+distinct_tagsets = set(tags)
+
+#distinct_tagsets = ["ADJ","ADP","ADV","CONJ","DET","CONJ","NOUN","NUM","PRT","PRON","VERB"] #excluding S
 
 
-distinct_tagsets = ["ADJ","ADP","ADV","CONJ","DET","CONJ","NOUN","NUM","PRT","PRON","VERB"] #excluding S
-
-sample_sentence = "He flies like a bee"
-#sample_sentence = "I saw a girl duck"
+sample_sentence = "I saw the door open." \
+                  ""
 print(sample_sentence)
 tokenized_sentence = nltk.word_tokenize(sample_sentence)
 print(tokenized_sentence)
@@ -109,6 +110,7 @@ for x in range (1,len(tokenized_sentence)):
     viterbi.append(curr) #appends the calculation for that state
 
 
+
 taglist = []
 for x in viterbi:
     biggest = -1
@@ -119,4 +121,4 @@ for x in viterbi:
             biggestTag = y
     taglist.append(biggestTag)
 print(taglist)
-print(viterbi)
+#print(viterbi)
