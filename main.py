@@ -64,8 +64,7 @@ distinct_tagsets = set(tags)
 #distinct_tagsets = ["ADJ","ADP","ADV","CONJ","DET","CONJ","NOUN","NUM","PRT","PRON","VERB"] #excluding S
 
 
-sample_sentence = "I saw the door open." \
-                  ""
+sample_sentence = "I saw the door open."
 print(sample_sentence)
 tokenized_sentence = nltk.word_tokenize(sample_sentence)
 print(tokenized_sentence)
@@ -90,6 +89,7 @@ for x in probabilityStart.keys():
         bestTag = x
 
 viterbi.append(probabilityStart)
+print(viterbi)
 
 
 for x in range (1,len(tokenized_sentence)):
@@ -108,6 +108,7 @@ for x in range (1,len(tokenized_sentence)):
         curr[tag] = viterbi[x-1][bestTag] * condprob_tags[bestTag].prob(tag) * condprob_words[tag].prob(tokenized_sentence[x])
 
     viterbi.append(curr) #appends the calculation for that state
+    print(curr)
 
 
 
